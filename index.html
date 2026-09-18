@@ -366,9 +366,9 @@ function saveLocal(){
 
 async function opAdd(rec){ if(CLOUD){ await fb.fs.addDoc(COL,{...rec,updatedAt:fb.fs.serverTimestamp()}); return; }
   DATA.push({...rec,id:"L"+Date.now().toString(36)}); DATA.sort((a,b)=>a.date<b.date?-1:1); saveLocal(); render(); }
-async function opUpdate(id,rec){ if(CLOUD){ await fb.fs.updateDoc(fb.fs.doc(db,"gatherings",id),{...rec,updatedAt:fb.fs.serverTimestamp()}); return; }
+async function opUpdate(id,rec){ if(CLOUD){ await fb.fs.updateDoc(fb.fs.doc(db,"YAF-Gathering",id),{...rec,updatedAt:fb.fs.serverTimestamp()}); return; }
   const i=DATA.findIndex(x=>x.id===id); if(i<0)return; DATA[i]={...DATA[i],...rec}; saveLocal(); render(); }
-async function opDelete(id){ if(CLOUD){ await fb.fs.deleteDoc(fb.fs.doc(db,"gatherings",id)); return; }
+async function opDelete(id){ if(CLOUD){ await fb.fs.deleteDoc(fb.fs.doc(db,"YAF-Gathering",id)); return; }
   DATA=DATA.filter(x=>x.id!==id); saveLocal(); render(); }
 
 /* =========================================================
