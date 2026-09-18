@@ -333,7 +333,7 @@ async function initCloud(){
     ]);
     const app=a.initializeApp(FIREBASE_CONFIG);
     db=f.getFirestore(app); COL=f.collection(db,"YAF-Gathering");
-    fb  = {fs:fsMod, authMod};
+    fb  = {fs:f, authMod};
     const auth=au.getAuth(app);
     if(!auth.currentUser) await au.signInAnonymously(auth);
     return true;
