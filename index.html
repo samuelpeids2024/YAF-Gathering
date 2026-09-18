@@ -331,14 +331,14 @@ async function initCloud(){
       import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js")
     ]);
     const app=a.initializeApp(FIREBASE_CONFIG);
-    db=f.getFirestore(app); COL=f.collection(db,"gatherings");
+    db=f.getFirestore(app); COL=f.collection(db,"YAF-Gathering");
     const auth=au.getAuth(app);
     if(!auth.currentUser) await au.signInAnonymously(auth);
     return true;
   }catch(e){ console.warn("雲端不可用 → 本地模式",e); return false; }
 }
 function subscribe(){
-  fb.fs.onSnapshot(COL,snap=>{
+  db.fs.onSnapshot(COL,snap=>{
     DATA=snap.docs.map(x=>{const v=x.data();
       const [y,mo,d]=String(v.date).split("-").map(Number);
       return {id:x.id,date:v.date,y, m:mo, d, title:(v.title||"").trim(),
