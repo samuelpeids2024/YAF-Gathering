@@ -322,6 +322,7 @@ function setSync(s,txt){ $("syncDot").className="dot "+(s||""); $("syncTxt").tex
 /* =========================================================
    3) 雲端 / 本地
    ========================================================= */
+let fb = null;
 async function initCloud(){
   if(String(FIREBASE_CONFIG.apiKey).startsWith("YOUR_")) return false;
   try{
@@ -332,13 +333,15 @@ async function initCloud(){
     ]);
     const app=a.initializeApp(FIREBASE_CONFIG);
     db=f.getFirestore(app); COL=f.collection(db,"YAF-Gathering");
+    fb  = {fs:fsMod, authMod};
     const auth=au.getAuth(app);
     if(!auth.currentUser) await au.signInAnonymously(auth);
     return true;
   }catch(e){ console.warn("雲端不可用 → 本地模式",e); return false; }
 }
 function subscribe(){
-  db.fs.onSnapshot(COL,snap=>{
+  const {fs} = fb;
+  fs.onSnapshot(COL,snap=>{
     DATA=snap.docs.map(x=>{const v=x.data();
       const [y,mo,d]=String(v.date).split("-").map(Number);
       return {id:x.id,date:v.date,y, m:mo, d, title:(v.title||"").trim(),
