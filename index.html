@@ -371,8 +371,7 @@ async function opDelete(id){ if(CLOUD){ await fb.fs.deleteDoc(fb.fs.doc(db,"gath
 /* =========================================================
    4) 渲染
    ========================================================= */
-const hit=p=> (!FILTER || (p.title+" "+catOf(p.cat).label+" "+(p.note||"")).toLowerCase().includes(FILTER))
-             && (!CATF || p.cat===CATF));
+const hit = p => (!FILTER || `${p.title} ${catOf(p.cat).label} ${p.note||""}`.toLowerCase().includes(FILTER)) && (!CATF || p.cat===CATF);
 
 function renderUp(){
   const upcoming = DATA.filter(hit).map(p=>({...p, days:Math.round((new Date(p.y,p.m-1,p.d)-TODAY)/864e5)}))
